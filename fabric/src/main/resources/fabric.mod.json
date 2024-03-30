@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "anvilcraft",
+  "version": "${version}",
+
+  "name": "AnvilCraft",
+  "description": "",
+  "authors": [],
+  "contact": {},
+
+  "license": "GNU LGPL 3.0",
+  "icon": "icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.dubhe.anvilcraft.fabric.AnvilCraftFabric"
+    ],
+    "fabric-datagen": [
+      "dev.dubhe.anvilcraft.data.fabric.AnvilCraftDatagen"
+    ]
+  },
+  "mixins": [
+    "anvilcraft.mixins.json",
+    "anvilcraft-common.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.7",
+    "minecraft": ">=1.20.1"
+  }
+}
