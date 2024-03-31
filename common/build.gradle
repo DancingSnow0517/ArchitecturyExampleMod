@@ -31,7 +31,7 @@ dependencies {
     modImplementation fabric.fabricLoader
     modCompileOnly fabric.fabricApi
 
-    modCompileOnly rootProject.fileTree(dir:  'libs', includes: ['*.jar'])
+    modCompileOnly fabric.registrate
 
     // JEI
     modCompileOnly fabric.jei.common.api
@@ -68,5 +68,15 @@ publishing {
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
         // Add repositories to publish to here.
+        def MAVEN_URL = System.getenv("MAVEN_URL")
+        if (MAVEN_URL != null) {
+            maven {
+                url MAVEN_URL
+                credentials {
+                    username System.getenv("MAVEN_USERNAME")
+                    password System.getenv("MAVEN_PASSWORD")
+                }
+            }
+        }
     }
 }

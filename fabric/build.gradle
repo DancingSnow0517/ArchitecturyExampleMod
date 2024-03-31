@@ -89,7 +89,7 @@ dependencies {
     shadowCommon(project(path: ":${mod_id}-common", configuration: "transformProductionFabric")) { transitive false }
 
     // Registrate
-    modImplementation(include(rootProject.fileTree(dir:  'libs', includes: ['*.jar'])))
+    modImplementation(include("com.tterrag.registrate_fabric:Registrate:${fabric.versions.registrate.get()}"))
 
     // Development QOL
     modCompileOnly fabric.lazydfu
@@ -118,6 +118,9 @@ dependencies {
     // Mixin Extras
     include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${fabric.versions.mixinextras.get()}")))
 
+    // Configuration
+    modImplementation(fabric.configuration)
+    include(fabric.configuration)
 }
 
 processResources {
@@ -161,7 +164,7 @@ components.java {
 publishing {
     publications {
         mavenFabric(MavenPublication) {
-            artifactId = rootProject.archives_base_name + "-" + project.name
+            artifactId = archivesBaseName
             from components.java
         }
     }
@@ -169,5 +172,15 @@ publishing {
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
         // Add repositories to publish to here.
+        def MAVEN_URL = System.getenv("MAVEN_URL")
+        if (MAVEN_URL != null) {
+            maven {
+                url MAVEN_URL
+                credentials {
+                    username System.getenv("MAVEN_USERNAME")
+                    password System.getenv("MAVEN_PASSWORD")
+                }
+            }
+        }
     }
 }
