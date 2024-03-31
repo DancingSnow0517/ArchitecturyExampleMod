@@ -51,6 +51,6 @@ jobs:
         with:
           name: AnvilCraftMod ${{ steps.version.outputs.version }}
           path: |
-            fabric/build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
-            forge/build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
+            fabric/build/libs/*.jar
+            forge/build/libs/*.jar
 
