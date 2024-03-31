@@ -127,13 +127,13 @@ dependencies {
     modCompileOnly(forge.jei.forge.impl) { transitive = false }
 
     // REI
-    modCompileOnly forge.rei.plugin
-    modCompileOnly forge.rei.api
-    modImplementation forge.rei.forge
+    modCompileOnly(forge.rei.plugin) { transitive = false }
+    modCompileOnly(forge.rei.api) { transitive = false }
+    modCompileOnly(forge.rei.forge) { transitive = false }
 
     // EMI
     modCompileOnly("dev.emi:emi-forge:${fabric.versions.emi.get()}:api")
-    modCompileOnly forge.emi
+    modImplementation forge.emi
 
     // Jade
     modImplementation(forge.jade)
@@ -145,13 +145,26 @@ dependencies {
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${this.forge.versions.mixinextras.get()}"))
     implementation(include("io.github.llamalad7:mixinextras-forge:${this.forge.versions.mixinextras.get()}"))
 
+    // Configuration
+    modImplementation(forge.configuration)
+    include(forge.configuration)
 }
 
 processResources {
-    inputs.property "version", project.version
+    Map<String, String> properties = Map.of(
+            "version", version,
+            "mod_id", mod_id,
+            "forge_version", forge.versions.forgeShortVersion.get().split("\\.")[0], // only specify major version of forge
+            "minecraft_version", libs.versions.minecraft.get(),
+            "mod_license", mod_license,
+            "mod_name", mod_name,
+            "mod_description", mod_description,
+            "mod_url", mod_url
+    )
+    properties.forEach((k, v) -> inputs.property(k, v))
 
     filesMatching("META-INF/mods.toml") {
-        expand "version": project.version
+        expand properties
     }
 }
 

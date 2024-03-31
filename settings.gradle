@@ -20,7 +20,7 @@ dependencyResolutionManagement {
         def jeiVersion = "15.3.0.4"
         def reiVersion = "12.0.648"
         def emiVersion = "1.1.4+1.20.1"
-        def kjsVersion = "2001.6.4-build.138"
+        def kjsVersion = "2001.6.3-build.37"
 
         // Fabric
         def fabricLoaderVersion = "0.15.7" // https://fabricmc.net/develop/

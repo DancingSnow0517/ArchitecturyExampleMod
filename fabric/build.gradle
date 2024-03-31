@@ -73,7 +73,8 @@ configurations {
 
 repositories {
     // mavens for Fabric-exclusives
-    maven { url = "https://mvn.devos.one/snapshots/" } // Create Fabric, Porting Lib, Forge Tags, Milk Lib, Registrate Fabric
+    maven { url = "https://mvn.devos.one/snapshots/" }
+    // Create Fabric, Porting Lib, Forge Tags, Milk Lib, Registrate Fabric
     //maven { url = "https://maven.cafeteria.dev/releases" } // Fake Player API
     maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
     maven { url = "https://jitpack.io/" } // Mixin Extras, Fabric ASM
@@ -123,11 +124,24 @@ dependencies {
     include(fabric.configuration)
 }
 
+
 processResources {
-    inputs.property "version", project.version
+    // set up properties for filling into metadata
+    Map<String, String> properties = Map.of(
+            "version", version,
+            "mod_id", mod_id,
+            "fabric_loader_version", fabric.versions.fabricLoader.get(),
+            "fabric_api_version", fabric.versions.fabricApi.get(),
+            "minecraft_version", libs.versions.minecraft.get(),
+            "mod_license", mod_license,
+            "mod_name", mod_name,
+            "mod_description", mod_description,
+            "mod_url", mod_url
+    )
+    properties.forEach((k, v) -> inputs.property(k, v))
 
     filesMatching("fabric.mod.json") {
-        expand "version": project.version
+        expand properties
     }
 }
 
